@@ -10,7 +10,7 @@ require('dotenv').config()
 async function savePostId( postId, releaseDate ) {
     const data = JSON.stringify({
         "collection": "posts",
-        "database": "nbamania",
+        "database": `${process.env.DATABASE_NAME}`,
         "dataSource": "Cluster0",
         "document": {
             "postId": postId,
@@ -42,7 +42,7 @@ async function savePostId( postId, releaseDate ) {
 async function findPost(postId) {
     const data = JSON.stringify({
         "collection": "posts",
-        "database": "nbamania",
+        "database": `${process.env.DATABASE_NAME}`,
         "dataSource": "Cluster0",
         "projection": {
             "_id": 0
@@ -94,6 +94,7 @@ function getInputMediaType(input) {
             await postToTelegram(prediction)
         }
     }
+    process.exit(0)
   }
 })()
 
