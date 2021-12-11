@@ -77,7 +77,8 @@ function getInputMediaType(input) {
     } else if (input?.image?.url) {
         return new Api.InputMediaPhotoExternal({url: input.image.url})
     } else {
-        throw new Error("Media file not found");
+        // throw new Error("Media file not found");
+        console.log('Media file not found')
     }
 } 
 
