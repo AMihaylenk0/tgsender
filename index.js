@@ -3,7 +3,7 @@ const apiEndpoint = 'https://nbamania.prismic.io/api/v2'
 const Client = Prismic.client(apiEndpoint)
 const {Api, TelegramClient} = require('telegram');
 const {StringSession} = require('telegram/sessions');
-const input = require('input'); // npm i input
+const input = require('input');
 const axios = require('axios');
 require('dotenv').config()
 
@@ -119,11 +119,10 @@ async function postToTelegram(prediction) {
     // await client.sendMessage('me', { message: 'Hello!' });
 
     client.setParseMode("html")
-    await client.sendFile("me",{
+    await client.sendFile("ShqOneal",{
         file: getInputMediaType(prediction?.data),
         caption: prediction?.data?.title?.[0]?.text
     });
-    // console.log("parse mode is :",  client.parseMode)
     // console.log("parse mode is :",  client.parseMode)
 
     // await client.invoke(new Api.messages.SendMedia({
