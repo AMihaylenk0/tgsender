@@ -119,7 +119,7 @@ async function postToTelegram(prediction) {
     // await client.sendMessage('me', { message: 'Hello!' });
 
     client.setParseMode("html")
-    await client.sendFile("ShqOneal",{
+    await client.sendFile("me",{
         file: getInputMediaType(prediction?.data),
         caption: prediction?.data?.title?.[0]?.text
     });
