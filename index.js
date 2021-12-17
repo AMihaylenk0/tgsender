@@ -1,5 +1,5 @@
 const Prismic = require('@prismicio/client')
-const apiEndpoint = 'https://nbamania.prismic.io/api/v2'
+const apiEndpoint = `${process.env.DATABASE_NAME}`
 const Client = Prismic.client(apiEndpoint)
 const {Api, TelegramClient} = require('telegram');
 const {StringSession} = require('telegram/sessions');
