@@ -1,6 +1,4 @@
 const Prismic = require('@prismicio/client')
-const apiEndpoint = `${process.env.DATABASE_NAME}`
-const Client = Prismic.client(apiEndpoint)
 const {Api, TelegramClient} = require('telegram');
 const {StringSession} = require('telegram/sessions');
 const input = require('input');
@@ -83,19 +81,20 @@ function getInputMediaType(input) {
 } 
 
 ;(async () => {
-  const predictions = await Client.query([
-    Prismic.Predicates.at('my.predictions.date', new Date().toLocaleDateString('en-CA'))
-  ])
-  if (predictions.results.length) {
-    for (const prediction of predictions.results) {
-        let foundPost = await findPost(prediction.id)
-        if (!foundPost.document) {
-            await savePostId(prediction.id)
-            await postToTelegram(prediction)
+    const Client = Prismic.client(process.env.MONGODB_API_ENDPOINT)
+    const predictions = await Client.query([
+        Prismic.Predicates.at('my.predictions.date', new Date().toLocaleDateString('en-CA'))
+    ])
+    if (predictions.results.length) {
+        for (const prediction of predictions.results) {
+            let foundPost = await findPost(prediction.id)
+            if (!foundPost.document) {
+                await savePostId(prediction.id)
+                await postToTelegram(prediction)
+            }
         }
-    }
     process.exit(0)
-  }
+    }
 })()
 
 async function postToTelegram(prediction) {
