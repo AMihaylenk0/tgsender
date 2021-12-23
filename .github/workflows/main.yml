@@ -26,6 +26,7 @@ jobs:
     - name: Run index.js
       run: node index.js
       env:
+        MONGODB_API_ENDPOINT: ${{secrets.MONGODB_API_ENDPOINT}}
         MONGODB_KEY: ${{ secrets.MONGODB_KEY }}
         DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
         TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
