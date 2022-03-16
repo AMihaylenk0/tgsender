@@ -14,8 +14,16 @@ require('dotenv').config()
         for (const prediction of predictions.results) {
             let foundPost = await findPost(prediction.id)
             if (!foundPost.document) {
-                await savePostId(prediction.id)
-                await postToTelegram(prediction)
+                try {
+                    await savePostId(prediction.id)
+                } catch (error) {
+                    console.log(error)                    
+                }
+                try {
+                    await postToTelegram(prediction)
+                } catch (error) {
+                    console.log(error)                
+                }
             }
         }
     process.exit(0)
