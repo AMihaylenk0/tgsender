@@ -11,9 +11,9 @@ require('dotenv').config()
         Prismic.Predicates.at('my.predictions.date', new Date().toLocaleDateString('en-CA'))
     ])
     if (predictions.results.length) {
-        for (const prediction of predictions.results) {
+        for (const prediction of predictions?.results) {
             let foundPost = await findPost(prediction.id)
-            if (!foundPost.document) {
+            if (!foundPost?.document) {
                 try {
                     await savePostId(prediction.id)
                 } catch (error) {
