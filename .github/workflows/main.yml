@@ -23,8 +23,8 @@ jobs:
     - name: Install dependencies
       if: steps.cache.outputs.cache-hit != 'true'
       run: npm ci --ignore-scripts
-    - name: Run index.js
-      run: node index.js
+    - name: Run index.ts
+      run: npm run start
       env:
         PRISMIC_API_ENDPOINT: ${{secrets.PRISMIC_API_ENDPOINT}}
         MONGODB_KEY: ${{ secrets.MONGODB_KEY }}
