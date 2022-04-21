@@ -1,12 +1,15 @@
-const Prismic = require('@prismicio/client')
-const {Api, TelegramClient} = require('telegram');
-const {StringSession} = require('telegram/sessions');
-const input = require('input');
-const axios = require('axios');
-require('dotenv').config()
+import Prismic from '@prismicio/client'
+import type * as PrismicT from "@prismicio/types";
+import {Api, TelegramClient} from 'telegram'
+import {StringSession} from 'telegram/sessions/index.js'
+//@ts-ignore
+import input from 'input'
+import axios, { AxiosRequestConfig } from 'axios'
+// require('dotenv').config()
+import 'dotenv/config'
 
 ;(async () => {
-    const Client = Prismic.client(process.env.PRISMIC_API_ENDPOINT)
+    const Client = Prismic.client(process.env.PRISMIC_API_ENDPOINT as string)
     const predictions = await Client.query([
         Prismic.Predicates.at('my.predictions.date', new Date().toLocaleDateString('en-CA'))
     ])
@@ -26,11 +29,11 @@ require('dotenv').config()
                 }
             }
         }
-    process.exit(0)
     }
+    process.exit(0)
 })()
 
-async function findPost(postId) {
+async function findPost(postId: string) {
     const data = JSON.stringify({
         "collection": "posts",
         "database": `${process.env.DATABASE_NAME}`,
@@ -41,7 +44,7 @@ async function findPost(postId) {
         "filter": { "postId": postId }
     });
                 
-    const config = {
+    const config: AxiosRequestConfig = {
         method: 'post',
         url: 'https://data.mongodb-api.com/app/data-vvmdy/endpoint/data/beta/action/findOne',
         headers: {
@@ -61,7 +64,7 @@ async function findPost(postId) {
     
 }
 
-async function savePostId( postId, releaseDate ) {
+async function savePostId( postId: string, releaseDate?: Date ) {
     const data = JSON.stringify({
         "collection": "posts",
         "database": `${process.env.DATABASE_NAME}`,
@@ -72,7 +75,7 @@ async function savePostId( postId, releaseDate ) {
         }
     });
                 
-    const config = {
+    const config: AxiosRequestConfig = {
         method: 'post',
         url: 'https://data.mongodb-api.com/app/data-vvmdy/endpoint/data/beta/action/insertOne',
         headers: {
@@ -91,7 +94,7 @@ async function savePostId( postId, releaseDate ) {
     }
 }
 
-async function postToTelegram(prediction) {
+async function postToTelegram(prediction: any) {
     const api_id = Number(process.env.TELEGRAM_API_ID);
     const api_hash = `${process.env.TELEGRAM_API_HASH}`;
     const session = new StringSession(`${process.env.TELEGRAM_API_SESSION}`);
@@ -126,7 +129,7 @@ async function postToTelegram(prediction) {
         //     // entities: [prediction?.data?.rich_text?.[0]?.text]
         // }));
 }
-function getCaption(data) {
+function getCaption(data: any) {
     let caption
     if (data?.title?.[0]?.text) {
         caption = `${data?.title?.[0]?.text}.\n\n`.bold()
@@ -137,7 +140,7 @@ function getCaption(data) {
     return caption
 }
 
-function getInputMediaType(input) {
+function getInputMediaType(input: any) {
     if (input?.media?.url) {
         return new Api.InputMediaDocumentExternal({url: input.media.url})
     } else if (input?.image?.url) {
